@@ -1,25 +1,21 @@
 import React from 'react';
-import {
-  Image,
-  Platform,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-  Button
-} from 'react-native';
+import { Image,  Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View, Button } from 'react-native';
 import { WebBrowser } from 'expo';
 
 import { MonoText } from '../components/StyledText';
 
 export default class HomeScreen extends React.Component {
+  constructor(props) {
+    super(props);
+
+  }
   static navigationOptions = {
     header: null,
   };
-
+ 
   render() {
-    const {navigate} = this.props.navigation;
+    const { navigate } = this.props.navigation;
+
     return (
       <View style={styles.container}>
         <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
@@ -34,8 +30,8 @@ export default class HomeScreen extends React.Component {
             />
           </View>
           <Button
-            title="Go to Home2"
-            onPress={() => navigate('Home2', { name: 'Home2' })}
+            title="Go to Login"
+            onPress={() => navigate('LoginUser', { name: 'LoginUser' })}
           />
           <View style={styles.getStartedContainer}>
             {this._maybeRenderDevelopmentModeWarning()}
