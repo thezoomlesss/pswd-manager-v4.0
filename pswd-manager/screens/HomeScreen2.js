@@ -1,18 +1,7 @@
 import React from 'react';
-import {
-  Image,
-  Platform,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-  Button,
-  TextInput
-} from 'react-native';
-import { WebBrowser } from 'expo';
-
+import { Image, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View, Button, TextInput, Alert } from 'react-native';
 import { MonoText } from '../components/StyledText';
+import { LinearGradient } from 'expo';
 
 export default class HomeScreen2 extends React.Component {
   static navigationOptions = {
@@ -20,54 +9,70 @@ export default class HomeScreen2 extends React.Component {
   };
   constructor(props) {
     super(props);
-    
+
     this.auth_login = this.auth_login.bind(this);
   }
   auth_login() {
-    console.log('Hello!');
+    Alert.alert('You need to...', 'Test This Properly');
   }
   render() {
     const { navigate } = this.props.navigation;
     return (
       <View style={styles.container}>
-        <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-          <View style={styles.welcomeContainer}>
-            <Image
-              source={
-                __DEV__
-                  ? require('../assets/images/robot-dev.png')
-                  : require('../assets/images/robot-prod.png')
-              }
-              style={styles.welcomeImage}
-            />
-          </View>
-          <Button
-            title="Go to Home1"
-            onPress={() => navigate('Home', { name: 'Home1' })}
-          />
+        <LinearGradient
+          start={[0, 1]} end={[1, 0]}
+          colors={['rgba(20,30,48,1)', 'rgba(36,59,85,1)', 'rgba(20,30,48,1)']}
+          style={{ flex: 1 }}
+        >
+          <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
 
-          <View style={styles.loginContainer}>
-            <Text
-              style={{ fontSize: 27 }}>
-              Login
-            </Text>
-            <TextInput style={styles.input} placeholder='Username' />
-            <TextInput style={styles.input} placeholder='Password' />
-            <View style={{ margin: 7 }} />
+            <View style={styles.welcomeContainer}>
+              <Image
+                source={
+                  __DEV__
+                    ? require('../assets/images/robot-dev.png')
+                    : require('../assets/images/robot-prod.png')
+                }
+                style={styles.welcomeImage}
+              />
+            </View>
             <Button
-              onPress={this.auth_login}
-              title="Submit"
+              title="Go to Home1"
+              onPress={() => navigate('Home', { name: 'Home1' })}
             />
-          </View>
-        </ScrollView>
 
-        <View style={styles.tabBarInfoContainer}>
+            <View style={styles.loginContainer}>
+              <Text
+                style={{ fontSize: 27 }}>
+                Login
+              </Text>
+
+              <TextInput style={styles.input} placeholder='Username' />
+              <TextInput style={styles.input} placeholder='Password' />
+              <View style={{ margin: 7 }} />
+              <Button
+                onPress={this.auth_login}
+                title="Login"
+              />
+              <TouchableOpacity style={styles.bottomLinkTouchable}>
+                <Text style={styles.bottomLinkText}>
+                  Not Registered yet?{" "}
+                  <Text style={styles.pressHere}>
+                    Press here!
+                  </Text>
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </ScrollView>
+        </LinearGradient>
+
+        {/* <View style={styles.tabBarInfoContainer}>
           <Text style={styles.tabBarInfoText}>This is a tab bar. You can edit it in:</Text>
 
           <View style={[styles.codeHighlightContainer, styles.navigationFilename]}>
             <MonoText style={styles.codeHighlightText}>navigation/MainTabNavigator.js</MonoText>
           </View>
-        </View>
+        </View> */}
       </View>
     );
   }
@@ -79,8 +84,7 @@ export default class HomeScreen2 extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#fff',
+    height: '100%'
   },
 
   contentContainer: {
@@ -140,7 +144,37 @@ const styles = StyleSheet.create({
     marginBottom: 20
   },
   input: {
+    textAlign: 'center',
+    height: 40,
+    width: "65%",
+    backgroundColor: 'rgba(0,0,0,0.2)',
+    borderColor: 'gray',
+    borderWidth: 2,
+    borderRadius: 20,
+    marginBottom: 10,
+    fontSize: 18,
+    color: '#FFFFFF',
+    paddingLeft: 10,
+    paddingRight: 10,
+
+  },
+  linearGradient: {
+    flex: 1,
+    paddingLeft: 15,
+    paddingRight: 15,
+    borderRadius: 5
+  },
+  bottomLinkText: {
     width: '100%',
-    textAlign: 'center'
+    color: "rgba(255,255,255,0.8)",
+    textAlign: 'right',
+  },
+  bottomLinkTouchable: {
+    width: '65%',
+  },
+  pressHere: {
+    color: "rgba(66, 134, 244, 0.9)",
+    paddingLeft: 5,
   }
 });
+
