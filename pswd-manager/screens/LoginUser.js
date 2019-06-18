@@ -10,25 +10,53 @@ export default class LoginUser extends React.Component {
   constructor(props) {
     super(props);
 
+    this.state={
+      loginLocations: null
+    };
+
     this.auth_login = this.auth_login.bind(this);
     this._storeData = this._storeData.bind(this);
- 
+    this.checkLoginsExist = this.checkLoginsExist.bind(this);
   }
-  auth_login() {
+  componentDidMount(){
+    this.setState({
+      loginLocations: []
+    });
+    this.auth_login();
+    // this.checkLoginsExist();
+    
+  }
+
+  async auth_login() {
+    // const loginToBeStored= {"username": "egUser1"};
+    // const loginList = [];
+    // loginList.push(loginToBeStored)
+    await AsyncStorage.setItem('loginArray', JSON.stringify([]));
+      
     // Alert.alert('You need to...', 'Test This Properly');
-    this._storeData();
+    // this._storeData();
+    // this.checkLoginsExist();
+    // this.setState({
+    //   loginLocations: [1,2,3]
+    // });
   }
- 
+  async checkLoginsExist(){
+    
+        
+  }
   _storeData = async () => {
     try {
-
-      await AsyncStorage.setItem('1', 'I like to save it.');
-      Alert.alert('Settem...', 'Test This Properly');
+      
+        await AsyncStorage.setItem('LoginArray', JSON.stringify({'first':'1','second':'2','third':'3'}));
+      
+      // await AsyncStorage.setItem('1', 'I like to save it.');
+      // Alert.alert('Settem...', 'Test This Properly');
       
     } catch (error) {
       // Error saving data
     }
   };
+
   render() {
     const { navigate } = this.props.navigation;
     return (
@@ -39,7 +67,7 @@ export default class LoginUser extends React.Component {
           style={{ flex: 1 }}
         >
           <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-
+          
             <View style={styles.welcomeContainer}>
               <Image
                 source={
@@ -54,7 +82,11 @@ export default class LoginUser extends React.Component {
               title="Go to Home1"
               onPress={() => navigate('Home', { name: 'Home1' })}
             />
-
+            <Text>{this.state && this.state.loginLocations?
+              this.state.loginLocations.map(function(item, i){
+                return <Text key={i}>{item+" "}</Text>;
+              })
+              :false}</Text>
             <View style={styles.loginContainer}>
               <Text
                 style={styles.title}>

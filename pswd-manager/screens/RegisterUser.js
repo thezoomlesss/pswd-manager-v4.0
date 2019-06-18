@@ -1,6 +1,5 @@
 import React from 'react';
 import { Image, AsyncStorage, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View, Button, TextInput, Alert } from 'react-native';
-import { MonoText } from '../components/StyledText';
 import { LinearGradient } from 'expo';
 
 export default class RegisterUser extends React.Component {
@@ -9,18 +8,51 @@ export default class RegisterUser extends React.Component {
     };
     constructor(props) {
         super(props);
-
-        this.auth_login = this.auth_login.bind(this);
-        this._retrieveData = this._retrieveData.bind(this);
-
+        this.state = {
+            username: null,
+            pwd: null,
+        };
+        this.auth_register = this.auth_register.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+        this._storeData = this._storeData.bind(this);
     }
-    auth_login() {
-        // Alert.alert('You need to...', 'Test This Properly');
-        this._retrieveData();
+    componentDidMount() {
+        this.setState({
+            username: '',
+            pwd: '',
+        });
     }
-    _retrieveData = async () => {
+
+    auth_register() {
+        this._storeData();
+    }
+    async _storeData() {
+        /* 
+            This function will get the array of total usernames
+            Add a new username to the array
+            Store the updated array 
+            Then store also the username and password combination 
+            in its designated place
+        */
+
         try {
+            const loginArray = await AsyncStorage.getItem('loginArray');
+            const parsedLoginArray = JSON.parse(loginArray);
+            if(!parsedLoginArray){
+                parsedLoginArray = [];
+            }
+            console.log(parsedLoginArray);
+            const newRegisteredLogin = {"username" : this.state.username};
+            parsedLoginArray.push(newRegisteredLogin);
+            await AsyncStorage.setItem('loginArray', JSON.stringify(parsedLoginArray));
+    
+            console.log(parsedLoginArray);
+        } catch (error) {
 
+        }
+    }
+    _storeData1 = async () => {
+        try {
             const value = await AsyncStorage.getItem('1');
             if (value !== null) {
                 // We have data!!
@@ -34,6 +66,13 @@ export default class RegisterUser extends React.Component {
             // Error retrieving data
         }
     };
+
+    handleChange(e, name) {
+        const inputedValue = e.nativeEvent.text;
+        this.setState({
+            [name]: inputedValue
+        });
+    }
 
     render() {
         const { navigate } = this.props.navigation;
@@ -65,13 +104,13 @@ export default class RegisterUser extends React.Component {
                             <Text
                                 style={styles.title}>
                                 Register
-              </Text>
+                            </Text>
 
-                            <TextInput style={styles.input} placeholder='Username' />
-                            <TextInput style={styles.input} placeholder='Password' />
+                            <TextInput style={styles.input} id="1" placeholder='Username' name="username" value={this.state.username} onChange={(event) => this.handleChange(event, "username")} />
+                            <TextInput style={styles.input} id="2" placeholder='Password' name="pwd" value={this.state.pwd} onChange={(event) => this.handleChange(event, "pwd")} />
                             <View style={{ margin: 7 }} />
                             <Button
-                                onPress={this.auth_login}
+                                onPress={this.auth_register}
                                 title="Register"
                             />
                             <TouchableOpacity
