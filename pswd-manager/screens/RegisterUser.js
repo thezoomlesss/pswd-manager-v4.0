@@ -10,7 +10,7 @@ export default class RegisterUser extends React.Component {
         super(props);
         this.state = {
             username: null,
-            pwd: null,
+            pswd: null,
         };
         this.auth_register = this.auth_register.bind(this);
         this.handleChange = this.handleChange.bind(this);
@@ -19,10 +19,10 @@ export default class RegisterUser extends React.Component {
     componentDidMount() {
         this.setState({
             username: '',
-            pwd: '',
+            pswd: '',
         });
     }
-
+    
     auth_register() {
         this._storeData();
     }
@@ -41,31 +41,14 @@ export default class RegisterUser extends React.Component {
             if(!parsedLoginArray){
                 parsedLoginArray = [];
             }
-            console.log(parsedLoginArray);
             const newRegisteredLogin = {"username" : this.state.username};
             parsedLoginArray.push(newRegisteredLogin);
             await AsyncStorage.setItem('loginArray', JSON.stringify(parsedLoginArray));
-    
-            console.log(parsedLoginArray);
+            await AsyncStorage.setItem(this.state.username, this.state.pswd);
         } catch (error) {
-
+            console.log(error);
         }
     }
-    _storeData1 = async () => {
-        try {
-            const value = await AsyncStorage.getItem('1');
-            if (value !== null) {
-                // We have data!!
-                Alert.alert('Gottem...', value);
-
-                // console.log(value);
-            } else {
-                Alert.alert('Gottem...', 'No Value');
-            }
-        } catch (error) {
-            // Error retrieving data
-        }
-    };
 
     handleChange(e, name) {
         const inputedValue = e.nativeEvent.text;
@@ -107,12 +90,12 @@ export default class RegisterUser extends React.Component {
                             </Text>
 
                             <TextInput style={styles.input} id="1" placeholder='Username' name="username" value={this.state.username} onChange={(event) => this.handleChange(event, "username")} />
-                            <TextInput style={styles.input} id="2" placeholder='Password' name="pwd" value={this.state.pwd} onChange={(event) => this.handleChange(event, "pwd")} />
+                            <TextInput style={styles.input} id="2" placeholder='Password' name="pswd" value={this.state.pswd} onChange={(event) => this.handleChange(event, "pswd")} />
                             <View style={{ margin: 7 }} />
                             <Button
                                 onPress={this.auth_register}
                                 title="Register"
-                            />
+                            /> 
                             <TouchableOpacity
                                 onPress={() => navigate('LoginUser', { name: 'Login Page' })}
                                 style={styles.bottomLinkTouchable}>

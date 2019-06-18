@@ -10,29 +10,32 @@ export default class LoginUser extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state={
+    this.state = {
       loginLocations: null
     };
 
     this.auth_login = this.auth_login.bind(this);
-    this._storeData = this._storeData.bind(this);
     this.checkLoginsExist = this.checkLoginsExist.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
-  componentDidMount(){
+  componentDidMount() {
     this.setState({
-      loginLocations: []
+      loginLocations: [],
+      username : '',
+      pswd: '',
     });
-    this.auth_login();
+    // this.auth_login();
     // this.checkLoginsExist();
-    
+
   }
+  
 
   async auth_login() {
     // const loginToBeStored= {"username": "egUser1"};
     // const loginList = [];
     // loginList.push(loginToBeStored)
     await AsyncStorage.setItem('loginArray', JSON.stringify([]));
-      
+
     // Alert.alert('You need to...', 'Test This Properly');
     // this._storeData();
     // this.checkLoginsExist();
@@ -40,22 +43,28 @@ export default class LoginUser extends React.Component {
     //   loginLocations: [1,2,3]
     // });
   }
-  async checkLoginsExist(){
-    
-        
-  }
-  _storeData = async () => {
-    try {
-      
-        await AsyncStorage.setItem('LoginArray', JSON.stringify({'first':'1','second':'2','third':'3'}));
-      
-      // await AsyncStorage.setItem('1', 'I like to save it.');
-      // Alert.alert('Settem...', 'Test This Properly');
-      
-    } catch (error) {
-      // Error saving data
+  async checkLoginsExist() {
+    const possibleLogin = await AsyncStorage.getItem(this.state.username);
+    if (!possibleLogin) {
+      Alert.alert("No user")
+    } else {
+      if(possibleLogin == this.state.pswd){
+        Alert.alert("Login Match");
+      } else {
+        Alert.alert("Wrong Password");
+      }
     }
-  };
+    console.log(this.state.username + ' ' + this.state.pswd);
+
+  }
+
+  handleChange(e, name) {
+    const inputedValue = e.nativeEvent.text;
+    this.setState({
+      [name]: inputedValue
+    });
+  }
+
 
   render() {
     const { navigate } = this.props.navigation;
@@ -67,7 +76,7 @@ export default class LoginUser extends React.Component {
           style={{ flex: 1 }}
         >
           <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-          
+
             <View style={styles.welcomeContainer}>
               <Image
                 source={
@@ -82,22 +91,22 @@ export default class LoginUser extends React.Component {
               title="Go to Home1"
               onPress={() => navigate('Home', { name: 'Home1' })}
             />
-            <Text>{this.state && this.state.loginLocations?
-              this.state.loginLocations.map(function(item, i){
-                return <Text key={i}>{item+" "}</Text>;
+            <Text>{this.state && this.state.loginLocations ?
+              this.state.loginLocations.map(function (item, i) {
+                return <Text key={i}>{item + " "}</Text>;
               })
-              :false}</Text>
+              : false}</Text>
             <View style={styles.loginContainer}>
               <Text
                 style={styles.title}>
                 Login
               </Text>
 
-              <TextInput style={styles.input} placeholder='Username' />
-              <TextInput style={styles.input} placeholder='Password' />
+              <TextInput style={styles.input} id="1" placeholder='Username' name="username" value={this.state.username} onChange={(event) => this.handleChange(event, "username")} />
+              <TextInput style={styles.input} id="2" placeholder='Password' name="pswd" value={this.state.pswd} onChange={(event) => this.handleChange(event, "pswd")} />
               <View style={{ margin: 7 }} />
               <Button
-                onPress={this.auth_login}
+                onPress={this.checkLoginsExist}
                 title="Login"
               />
               <TouchableOpacity
@@ -224,7 +233,7 @@ const styles = StyleSheet.create({
     color: "rgba(66, 134, 244, 0.9)",
     paddingLeft: 5,
   },
-  title:{
+  title: {
     fontSize: 42,
     marginBottom: 25,
     color: 'white'
