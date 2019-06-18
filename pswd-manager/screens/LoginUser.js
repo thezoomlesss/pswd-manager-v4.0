@@ -45,17 +45,18 @@ export default class LoginUser extends React.Component {
   }
   async checkLoginsExist() {
     const possibleLogin = await AsyncStorage.getItem(this.state.username);
+    
     if (!possibleLogin) {
       Alert.alert("No user")
     } else {
       if(possibleLogin == this.state.pswd){
-        Alert.alert("Login Match");
+        // Alert.alert("Login Match");
+        this.props.navigation.navigate('Home', {"username" : this.state.username});
       } else {
         Alert.alert("Wrong Password");
       }
     }
-    console.log(this.state.username + ' ' + this.state.pswd);
-
+    
   }
 
   handleChange(e, name) {
