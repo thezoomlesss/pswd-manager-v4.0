@@ -17,6 +17,7 @@ export default class LoginUser extends React.Component {
     this.auth_login = this.auth_login.bind(this);
     this.checkLoginsExist = this.checkLoginsExist.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.demoButton = this.demoButton.bind(this);
   }
   componentDidMount() {
     this.setState({
@@ -42,6 +43,13 @@ export default class LoginUser extends React.Component {
     // this.setState({
     //   loginLocations: [1,2,3]
     // });
+  }
+  demoButton() {
+    this.setState({
+      username: 'Test',
+      pswd: 'Testpass'
+    });
+    // this.checkLoginsExist();
   }
   async checkLoginsExist() {
     const possibleLogin = await AsyncStorage.getItem(this.state.username);
@@ -109,6 +117,11 @@ export default class LoginUser extends React.Component {
               <Button
                 onPress={this.checkLoginsExist}
                 title="Login"
+              />
+              <View style={{ margin: 7 }}/>
+              <Button
+                onPress={this.demoButton}
+                title="Demo"
               />
               <TouchableOpacity
                 onPress={() => navigate('RegisterUser', { name: 'RegisterUser' })}

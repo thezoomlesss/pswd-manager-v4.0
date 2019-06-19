@@ -2,6 +2,8 @@ import React from 'react';
 import { Image, AsyncStorage, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View, Button, TextInput, Alert } from 'react-native';
 import { MonoText } from '../components/StyledText';
 import { LinearGradient } from 'expo';
+import  WebsiteRecordList  from '../components/WebsiteRecordList'
+// import { WebsiteRecord } from '../components/WebsiteRecord'
 
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -12,14 +14,84 @@ export default class HomeScreen extends React.Component {
     this.state = {
       username: null
     }
+    this.getData = this.getData.bind(this);
   }
   componentDidMount() {
     const username = this.props.navigation.getParam('username', 'no-user');
     this.setState({
       username: username
     });
-    Alert.alert("username", username)
   }
+  getData() {
+    return [
+      {
+        key: 1, title: 'Albert Einstein',
+        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore',
+        image_url: 'http://vivirtupasion.com/wp-content/uploads/2016/05/DANI_PERFILzoomCircle.png'
+      },
+      {
+        key: 2,
+        title: 'Isaac newton',
+        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore',
+        image_url: 'http://3.bp.blogspot.com/-jd5x3rFRLJc/VngrSWSHcjI/AAAAAAAAGJ4/ORPqZNDpQoY/s1600/Profile%2Bcircle.png'
+      },
+      {
+        key: 3, title: 'Albert Einstein',
+        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore',
+        image_url: 'http://vivirtupasion.com/wp-content/uploads/2016/05/DANI_PERFILzoomCircle.png'
+      },
+      {
+        key: 4,
+        title: 'Isaac newton',
+        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore',
+        image_url: 'http://3.bp.blogspot.com/-jd5x3rFRLJc/VngrSWSHcjI/AAAAAAAAGJ4/ORPqZNDpQoY/s1600/Profile%2Bcircle.png'
+      },
+      {
+        key: 5, title: 'Albert Einstein',
+        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore',
+        image_url: 'http://vivirtupasion.com/wp-content/uploads/2016/05/DANI_PERFILzoomCircle.png'
+      },
+      {
+        key: 6,
+        title: 'Isaac newton',
+        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore',
+        image_url: 'http://3.bp.blogspot.com/-jd5x3rFRLJc/VngrSWSHcjI/AAAAAAAAGJ4/ORPqZNDpQoY/s1600/Profile%2Bcircle.png'
+      },
+      {
+        key: 7, title: 'Albert Einstein',
+        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore',
+        image_url: 'http://vivirtupasion.com/wp-content/uploads/2016/05/DANI_PERFILzoomCircle.png'
+      },
+      {
+        key: 8,
+        title: 'Isaac newton',
+        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore',
+        image_url: 'http://3.bp.blogspot.com/-jd5x3rFRLJc/VngrSWSHcjI/AAAAAAAAGJ4/ORPqZNDpQoY/s1600/Profile%2Bcircle.png'
+      },
+      {
+        key: 9, title: 'Albert Einstein',
+        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore',
+        image_url: 'http://vivirtupasion.com/wp-content/uploads/2016/05/DANI_PERFILzoomCircle.png'
+      },
+      {
+        key: 10,
+        title: 'Isaac newton',
+        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore',
+        image_url: 'http://3.bp.blogspot.com/-jd5x3rFRLJc/VngrSWSHcjI/AAAAAAAAGJ4/ORPqZNDpQoY/s1600/Profile%2Bcircle.png'
+      },
+      {
+        key: 11, title: 'Albert Einstein',
+        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore',
+        image_url: 'http://vivirtupasion.com/wp-content/uploads/2016/05/DANI_PERFILzoomCircle.png'
+      },
+      {
+        key: 12,
+        title: 'Isaac newton',
+        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore',
+        image_url: 'http://3.bp.blogspot.com/-jd5x3rFRLJc/VngrSWSHcjI/AAAAAAAAGJ4/ORPqZNDpQoY/s1600/Profile%2Bcircle.png'
+      },
+    ]
+  };
   render() {
     const { navigate } = this.props.navigation;
     return (
@@ -33,9 +105,14 @@ export default class HomeScreen extends React.Component {
             <Text style={styles.topBarText}>Hi {this.state.username}!</Text>
           </View>
           <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
+            <WebsiteRecordList
+                itemList={this.getData()}>
 
-
+              </WebsiteRecordList>
           </ScrollView>
+        {/* <View style={styles.container}>
+              
+            </View> */}
         </LinearGradient>
       </View>
     );
@@ -51,13 +128,15 @@ const styles = StyleSheet.create({
 
   contentContainer: {
     paddingTop: 30,
+    paddingBottom: 30,
+    
   },
-  topBar:{
-    marginTop: 20,
+  topBar: {
+    marginTop: 25,
     paddingLeft: 10
   },
-  topBarText:{
-    color : "#FFF",
-    fontSize: 22,
+  topBarText: {
+    color: "#FFF",
+    fontSize: 26,
   }
 });
