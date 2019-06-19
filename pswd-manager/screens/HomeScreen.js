@@ -2,7 +2,7 @@ import React from 'react';
 import { Image, AsyncStorage, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View, Button, TextInput, Alert } from 'react-native';
 import { MonoText } from '../components/StyledText';
 import { LinearGradient } from 'expo';
-import  WebsiteRecordList  from '../components/WebsiteRecordList'
+import WebsiteRecordList  from '../components/WebsiteRecordList'
 // import { WebsiteRecord } from '../components/WebsiteRecord'
 
 export default class HomeScreen extends React.Component {
@@ -104,13 +104,27 @@ export default class HomeScreen extends React.Component {
           <View style={styles.topBar}>
             <Text style={styles.topBarText}>Hi {this.state.username}!</Text>
           </View>
-          <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-            <WebsiteRecordList
-                itemList={this.getData()}>
 
-              </WebsiteRecordList>
+          <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
+            <View style={styles.actionBar}>
+              <View style={styles.buttomActionContainer}>
+                <TouchableOpacity style={styles.actionButtonLeft}>
+                  <Text style={styles.textButton}>New Website</Text>
+                </TouchableOpacity>
+              </View>
+              <View style={styles.buttomActionContainer}>
+                <TouchableOpacity style={styles.actionButtonRight}>
+                  <Text style={styles.textButton}>Test</Text>
+                </TouchableOpacity>
+              </View>
+
+            </View>
+            <WebsiteRecordList
+              itemList={this.getData()}>
+
+            </WebsiteRecordList>
           </ScrollView>
-        {/* <View style={styles.container}>
+          {/* <View style={styles.container}>
               
             </View> */}
         </LinearGradient>
@@ -129,7 +143,7 @@ const styles = StyleSheet.create({
   contentContainer: {
     paddingTop: 30,
     paddingBottom: 30,
-    
+
   },
   topBar: {
     marginTop: 25,
@@ -138,5 +152,38 @@ const styles = StyleSheet.create({
   topBarText: {
     color: "#FFF",
     fontSize: 26,
+  },
+  actionBar: {
+    width: '100%',
+    marginBottom: 25,
+    flexDirection: 'row',
+    flexWrap: 'wrap'
+  },
+  actionButtonLeft: {
+    padding: 10,
+    marginLeft: 16,
+    marginRight: 5,
+    marginTop: 8,
+    marginBottom: 8,
+    borderRadius: 5,
+    backgroundColor: 'rgb(112, 167, 249)',
+    elevation: 2,
+  },
+  buttomActionContainer:{
+    width: '50%',
+  },
+  actionButtonRight: {
+    padding: 10,
+    marginLeft: 5,
+    marginRight: 16,
+    marginTop: 8,
+    marginBottom: 8,
+    borderRadius: 5,
+    backgroundColor: 'rgb(209, 50, 50)',
+    elevation: 2,
+  },
+  textButton :{
+    color: "#FFF",
+    textAlign: "center",
   }
 });
