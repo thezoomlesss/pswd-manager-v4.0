@@ -15,15 +15,20 @@ export default class WebsiteRecordList extends React.PureComponent {
         super(props);
         this.itemClick = this.itemClick.bind(this);
         this._renderItem = this._renderItem.bind(this);
+        this._keyExtractor = this._keyExtractor.bind(this);
     }
 
     _renderItem = ({ item }) => (
         <WebsiteRecord
+            listType='list'
+            key={item.key}
             title={item.title}
             description={item.description}
             image_url={item.image_url}
         />
     );
+    _keyExtractor = (item, index) => item.key.toString();
+    
     _onPressItem = () => {
         Alert.alert("Yes");
     };
@@ -35,6 +40,8 @@ export default class WebsiteRecordList extends React.PureComponent {
         return (
             <View style={styles.container}>
                 <FlatList
+                    
+                    keyExtractor={this._keyExtractor}
                     data={this.props.itemList}
                     renderItem={this._renderItem}
                 />

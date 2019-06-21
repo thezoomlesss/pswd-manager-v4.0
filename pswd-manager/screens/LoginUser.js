@@ -61,7 +61,7 @@ export default class LoginUser extends React.Component {
         // Alert.alert("Login Match");
         this.props.navigation.navigate('Home', {"username" : this.state.username});
       } else {
-        Alert.alert("Wrong Password");
+        Alert.alert("Wrong password")
       }
     }
     

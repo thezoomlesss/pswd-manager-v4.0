@@ -3,6 +3,7 @@ import { Image, AsyncStorage, Platform, ScrollView, StyleSheet, Text, TouchableO
 import { MonoText } from '../components/StyledText';
 import { LinearGradient } from 'expo';
 import WebsiteRecordList  from '../components/WebsiteRecordList'
+import WebsiteRecordAdd  from '../components/WebsiteRecordAdd'
 // import { WebsiteRecord } from '../components/WebsiteRecord'
 
 export default class HomeScreen extends React.Component {
@@ -12,14 +13,23 @@ export default class HomeScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: null
+      username: null,
+      addNew: null,
     }
     this.getData = this.getData.bind(this);
+    this.newWebsiteClick = this.newWebsiteClick.bind(this);
   }
   componentDidMount() {
     const username = this.props.navigation.getParam('username', 'no-user');
     this.setState({
-      username: username
+      username: username,
+      addNew: 'false',
+
+    });
+  }
+  newWebsiteClick(){
+    this.setState({
+      addNew: 'true'
     });
   }
   getData() {
@@ -80,7 +90,8 @@ export default class HomeScreen extends React.Component {
         image_url: 'http://3.bp.blogspot.com/-jd5x3rFRLJc/VngrSWSHcjI/AAAAAAAAGJ4/ORPqZNDpQoY/s1600/Profile%2Bcircle.png'
       },
       {
-        key: 11, title: 'Albert Einstein',
+        key: 11, 
+        title: 'Albert Einstein',
         description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore',
         image_url: 'http://vivirtupasion.com/wp-content/uploads/2016/05/DANI_PERFILzoomCircle.png'
       },
@@ -104,21 +115,22 @@ export default class HomeScreen extends React.Component {
           <View style={styles.topBar}>
             <Text style={styles.topBarText}>Hi {this.state.username}!</Text>
           </View>
-
           <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
             <View style={styles.actionBar}>
               <View style={styles.buttomActionContainer}>
-                <TouchableOpacity style={styles.actionButtonLeft}>
-                  <Text style={styles.textButton}>New Website</Text>
+                <TouchableOpacity onPress={this.newWebsiteClick} style={styles.actionButtonLeft}>
+                  <Text style={styles.textButtonLeft}>New Website</Text>
                 </TouchableOpacity>
               </View>
               <View style={styles.buttomActionContainer}>
                 <TouchableOpacity style={styles.actionButtonRight}>
-                  <Text style={styles.textButton}>Test</Text>
+                  <Text style={styles.textButtonRight}>Test</Text>
                 </TouchableOpacity>
               </View>
 
             </View>
+            {this.state.addNew == 'true'?<WebsiteRecordAdd/>:false}
+          
             <WebsiteRecordList
               itemList={this.getData()}>
 
@@ -165,8 +177,10 @@ const styles = StyleSheet.create({
     marginRight: 5,
     marginTop: 8,
     marginBottom: 8,
-    borderRadius: 5,
-    backgroundColor: 'rgb(112, 167, 249)',
+    borderRadius: 10,
+    borderWidth: 3,
+    borderColor: 'rgb(112, 167, 249)',
+    backgroundColor: 'rgba(97, 123, 168, 1)',
     elevation: 2,
   },
   buttomActionContainer:{
@@ -178,12 +192,20 @@ const styles = StyleSheet.create({
     marginRight: 16,
     marginTop: 8,
     marginBottom: 8,
-    borderRadius: 5,
-    backgroundColor: 'rgb(209, 50, 50)',
+    borderRadius: 10,
+    borderWidth: 3,
+    borderColor: 'rgb(209, 50, 50)',
+    backgroundColor: 'rgba(97, 123, 168, 1)',
     elevation: 2,
   },
-  textButton :{
-    color: "#FFF",
+  textButtonRight :{
+    color: 'rgb(209, 50, 50)',
     textAlign: "center",
+    fontWeight: 'bold'
+  },
+  textButtonLeft :{
+    color: 'rgb(112, 167, 249)',
+    textAlign: "center",
+    fontWeight: 'bold'
   }
 });
