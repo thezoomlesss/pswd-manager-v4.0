@@ -2,8 +2,8 @@ import React from 'react';
 import { Image, AsyncStorage, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View, Button, TextInput, Alert } from 'react-native';
 import { MonoText } from '../components/StyledText';
 import { LinearGradient } from 'expo';
-import WebsiteRecordList  from '../components/WebsiteRecordList'
-import WebsiteRecordAdd  from '../components/WebsiteRecordAdd'
+import WebsiteRecordList from '../components/WebsiteRecordList'
+import WebsiteRecordAdd from '../components/WebsiteRecordAdd'
 // import { WebsiteRecord } from '../components/WebsiteRecord'
 
 export default class HomeScreen extends React.Component {
@@ -15,19 +15,30 @@ export default class HomeScreen extends React.Component {
     this.state = {
       username: null,
       addNew: null,
+      searchValue: null
     }
     this.getData = this.getData.bind(this);
     this.newWebsiteClick = this.newWebsiteClick.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
   componentDidMount() {
     const username = this.props.navigation.getParam('username', 'no-user');
     this.setState({
       username: username,
       addNew: 'false',
+      searchValue: '',
 
     });
   }
-  newWebsiteClick(){
+
+  handleChange(e, name) {
+    const inputedValue = e.nativeEvent.text;
+    this.setState({
+      [name]: inputedValue
+    });
+  }
+
+  newWebsiteClick() {
     this.setState({
       addNew: 'true'
     });
@@ -90,7 +101,7 @@ export default class HomeScreen extends React.Component {
         image_url: 'http://3.bp.blogspot.com/-jd5x3rFRLJc/VngrSWSHcjI/AAAAAAAAGJ4/ORPqZNDpQoY/s1600/Profile%2Bcircle.png'
       },
       {
-        key: 11, 
+        key: 11,
         title: 'Albert Einstein',
         description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore',
         image_url: 'http://vivirtupasion.com/wp-content/uploads/2016/05/DANI_PERFILzoomCircle.png'
@@ -129,9 +140,20 @@ export default class HomeScreen extends React.Component {
               </View>
 
             </View>
-            {this.state.addNew == 'true'?<WebsiteRecordAdd/>:false}
-          
+            {this.state.addNew == 'true' ? <WebsiteRecordAdd /> : false}
+            <View style={styles.searchContainer}>
+              <TextInput
+                onChange={(event) => this.handleChange(event, "searchValue")}
+                style={styles.searchInput}
+                placeholder="Search"
+                value={this.state.searchValue}
+              // onChangeText={(text) => this.setState({ text })}
+              // value={this.state.text}
+              />
+            </View>
+
             <WebsiteRecordList
+              searchTerm={this.state.searchValue}
               itemList={this.getData()}>
 
             </WebsiteRecordList>
@@ -183,7 +205,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(97, 123, 168, 1)',
     elevation: 2,
   },
-  buttomActionContainer:{
+  buttomActionContainer: {
     width: '50%',
   },
   actionButtonRight: {
@@ -198,14 +220,33 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(97, 123, 168, 1)',
     elevation: 2,
   },
-  textButtonRight :{
+  textButtonRight: {
     color: 'rgb(209, 50, 50)',
     textAlign: "center",
     fontWeight: 'bold'
   },
-  textButtonLeft :{
+  textButtonLeft: {
     color: 'rgb(112, 167, 249)',
     textAlign: "center",
     fontWeight: 'bold'
-  }
+  },
+  searchInput: {
+    textAlign: 'center',
+    height: 40,
+    width: "100%",
+    backgroundColor: 'rgba(0,0,0,0.2)',
+    borderColor: 'gray',
+    borderWidth: 2,
+    borderRadius: 20,
+    marginBottom: 10,
+    fontSize: 18,
+    color: '#FFFFFF',
+    paddingLeft: 10,
+    paddingRight: 10,
+
+  },
+  searchContainer: {
+    marginLeft: 16,
+    marginRight: 16,
+  },
 });

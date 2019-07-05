@@ -39,6 +39,7 @@ export default class WebsiteRecordList extends React.PureComponent {
     render() {
         return (
             <View style={styles.container}>
+                <Text>{this.props.searchTerm}</Text>
                 <FlatList
                     
                     keyExtractor={this._keyExtractor}
