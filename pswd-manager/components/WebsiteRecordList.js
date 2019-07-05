@@ -19,13 +19,15 @@ export default class WebsiteRecordList extends React.PureComponent {
     }
 
     _renderItem = ({ item }) => (
+        item.title.toLowerCase().includes(this.props.searchTerm.toLowerCase())?
         <WebsiteRecord
+            searchTerm={this.props.searchTerm}
             listType='list'
             key={item.key}
             title={item.title}
             description={item.description}
             image_url={item.image_url}
-        />
+        />:false
     );
     _keyExtractor = (item, index) => item.key.toString();
     
@@ -39,13 +41,13 @@ export default class WebsiteRecordList extends React.PureComponent {
     render() {
         return (
             <View style={styles.container}>
-                <Text>{this.props.searchTerm}</Text>
+                {this.props.searchTerm != null? 
                 <FlatList
-                    
                     keyExtractor={this._keyExtractor}
                     data={this.props.itemList}
                     renderItem={this._renderItem}
-                />
+                />: false
+                }
             </View>
         );
     };

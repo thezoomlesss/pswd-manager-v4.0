@@ -19,6 +19,7 @@ export default class WebsiteRecord extends React.PureComponent {
         return (
             this.props.listType == 'list' ?
                 <View style={styles.container}>
+                    <Text>{this.props.searchTerm}</Text>
                     <View style={styles.topRow}>
                         <Image source={{ uri: this.props.image_url }} style={styles.photo} />
                         <View style={styles.container_text}>
