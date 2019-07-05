@@ -6,9 +6,25 @@ export default class WebsiteRecord extends React.PureComponent {
     constructor(props) {
         super(props);
         this.state = {
-            showMore: false
+            showMore: false,
+            newWebsiteClick: null,
+            newEmail: null,
+            newPassword: null,
         }
         this.showMore_click = this.showMore_click.bind(this);
+    }
+    componentDidMount() {
+        this.setState({
+            newWebsiteClick: '',
+            newEmail: '',
+            newPassword: '',
+        });
+    }
+    handleChange(e, name) {
+        const inputedValue = e.nativeEvent.text;
+        this.setState({
+            [name]: inputedValue
+        });
     }
     showMore_click() {
         this.setState(prevState => ({
@@ -19,7 +35,6 @@ export default class WebsiteRecord extends React.PureComponent {
         return (
             this.props.listType == 'list' ?
                 <View style={styles.container}>
-                    <Text>{this.props.searchTerm}</Text>
                     <View style={styles.topRow}>
                         <Image source={{ uri: this.props.image_url }} style={styles.photo} />
                         <View style={styles.container_text}>
@@ -97,32 +112,35 @@ export default class WebsiteRecord extends React.PureComponent {
                             <TextInput
                                 style={styles.input}
                                 placeholder="Webiste Name"
-                            // onChangeText={(text) => this.setState({ text })}
-                            // value={this.state.text}
+                                value={this.state.newWebsiteName}
+                                onChange={(event) => this.handleChange(event, "newWebsiteName")}
+                
                             />
                             <TextInput
                                 style={styles.input}
                                 placeholder="email"
-                            // onChangeText={(text) => this.setState({ text })}
-                            // value={this.state.text}
+                                value={this.state.newEmail}
+                                onChange={(event) => this.handleChange(event, "newEmail")}
+                
                             />
                             <TextInput
                                 style={styles.input}
                                 placeholder="password"
-                            // onChangeText={(text) => this.setState({ text })}
-                            // value={this.state.text}
+                                value={this.state.newPassword}
+                                onChange={(event) => this.handleChange(event, "newPassword")}
+                
                             />
                         </View>
                     </View>
                     <View style={styles.actionBar}>
                         <View style={styles.buttomActionContainer}>
                             <TouchableOpacity onPress={this.newWebsiteClick} style={styles.actionButtonLeft}>
-                                <Text style={styles.textButton}>New Website</Text>
+                                <Text style={styles.textButton}>Complete</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={styles.buttomActionContainer}>
-                            <TouchableOpacity style={styles.actionButtonRight}>
-                                <Text style={styles.textButton}>Test</Text>
+                            <TouchableOpacity style={styles.actionButtonRight} onPress={this.props.closeNewWebsite}>
+                                <Text style={styles.textButton}>Cancel</Text>
                             </TouchableOpacity>
                         </View>
 
@@ -181,15 +199,6 @@ const styles = StyleSheet.create({
         borderRadius: 25,
         alignSelf: 'stretch'
     },
-    actionButtonLeft: {
-        padding: 10,
-        marginRight: 5,
-        marginTop: 8,
-        marginBottom: 8,
-        borderRadius: 5,
-        backgroundColor: 'rgb(112, 167, 249)',
-        elevation: 2,
-    },
     buttomActionContainer: {
         width: '25%',
     },
@@ -239,10 +248,6 @@ const styles = StyleSheet.create({
         paddingRight: 15,
         flex: 1,
     },
-    textButton: {
-        color: "#FFF",
-        textAlign: "center",
-    },
     actionBar: {
         width: '100%',
         marginBottom: 25,
@@ -256,7 +261,7 @@ const styles = StyleSheet.create({
         marginTop: 8,
         marginBottom: 8,
         borderRadius: 5,
-        backgroundColor: 'rgb(112, 167, 249)',
+        backgroundColor: 'rgb(24, 196, 58)',
         elevation: 2,
     },
     buttomActionContainer: {

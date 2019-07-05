@@ -11,7 +11,9 @@ export default class WebsiteRecordAdd extends React.Component {
     render() {
         return (
             <View>
-                <WebsiteRecord listType='add' />
+                <WebsiteRecord
+                    closeNewWebsite={this.props.closeNewWebsite}
+                    listType='add' />
             </View>
         );
     }

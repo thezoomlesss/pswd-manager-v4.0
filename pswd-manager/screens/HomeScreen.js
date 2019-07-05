@@ -20,6 +20,7 @@ export default class HomeScreen extends React.Component {
     this.getData = this.getData.bind(this);
     this.newWebsiteClick = this.newWebsiteClick.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.newWebsiteClose = this.newWebsiteClose.bind(this);
   }
   componentDidMount() {
     const username = this.props.navigation.getParam('username', 'no-user');
@@ -41,6 +42,11 @@ export default class HomeScreen extends React.Component {
   newWebsiteClick() {
     this.setState({
       addNew: 'true'
+    });
+  }
+  newWebsiteClose() {
+    this.setState({
+      addNew: 'false'
     });
   }
   getData() {
@@ -140,7 +146,10 @@ export default class HomeScreen extends React.Component {
               </View>
 
             </View>
-            {this.state.addNew == 'true' ? <WebsiteRecordAdd /> : false}
+            {this.state.addNew == 'true' ?
+              <WebsiteRecordAdd
+                closeNewWebsite={this.newWebsiteClose} />
+              : false}
             <View style={styles.searchContainer}>
               <TextInput
                 onChange={(event) => this.handleChange(event, "searchValue")}
@@ -200,9 +209,7 @@ const styles = StyleSheet.create({
     marginTop: 8,
     marginBottom: 8,
     borderRadius: 10,
-    borderWidth: 3,
-    borderColor: 'rgb(112, 167, 249)',
-    backgroundColor: 'rgba(97, 123, 168, 1)',
+    backgroundColor: 'rgb(112, 167, 249)',
     elevation: 2,
   },
   buttomActionContainer: {
@@ -226,9 +233,8 @@ const styles = StyleSheet.create({
     fontWeight: 'bold'
   },
   textButtonLeft: {
-    color: 'rgb(112, 167, 249)',
+    color: '#FFF',
     textAlign: "center",
-    fontWeight: 'bold'
   },
   searchInput: {
     textAlign: 'center',
