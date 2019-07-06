@@ -114,27 +114,27 @@ export default class WebsiteRecord extends React.PureComponent {
                                 placeholder="Webiste Name"
                                 value={this.state.newWebsiteName}
                                 onChange={(event) => this.handleChange(event, "newWebsiteName")}
-                
+
                             />
                             <TextInput
                                 style={styles.input}
                                 placeholder="email"
                                 value={this.state.newEmail}
                                 onChange={(event) => this.handleChange(event, "newEmail")}
-                
+
                             />
                             <TextInput
                                 style={styles.input}
                                 placeholder="password"
                                 value={this.state.newPassword}
                                 onChange={(event) => this.handleChange(event, "newPassword")}
-                
+
                             />
                         </View>
                     </View>
                     <View style={styles.actionBar}>
                         <View style={styles.buttomActionContainer}>
-                            <TouchableOpacity onPress={this.newWebsiteClick} style={styles.actionButtonLeft}>
+                            <TouchableOpacity onPress={this.newWebsiteClick} style={styles.actionButtonLeftComplete}>
                                 <Text style={styles.textButton}>Complete</Text>
                             </TouchableOpacity>
                         </View>
@@ -199,18 +199,6 @@ const styles = StyleSheet.create({
         borderRadius: 25,
         alignSelf: 'stretch'
     },
-    buttomActionContainer: {
-        width: '25%',
-    },
-    actionButtonRight: {
-        padding: 10,
-        marginLeft: 5,
-        marginTop: 8,
-        marginBottom: 8,
-        borderRadius: 5,
-        backgroundColor: 'rgb(209, 50, 50)',
-        elevation: 2,
-    },
     textButton: {
         color: "#FFF",
         textAlign: "center",
@@ -255,6 +243,16 @@ const styles = StyleSheet.create({
         flexWrap: 'wrap'
     },
     actionButtonLeft: {
+        padding: 10,
+        marginLeft: 16,
+        marginRight: 5,
+        marginTop: 8,
+        marginBottom: 8,
+        borderRadius: 5,
+        backgroundColor: 'rgb(112, 167, 249)',
+        elevation: 2,
+    },
+    actionButtonLeftComplete: {
         padding: 10,
         marginLeft: 16,
         marginRight: 5,
