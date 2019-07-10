@@ -7,6 +7,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
 });
+
 export default class WebsiteRecordList extends React.PureComponent {
     // const WebsiteRecordList = ({ itemList }) => (
 
@@ -14,22 +15,49 @@ export default class WebsiteRecordList extends React.PureComponent {
     constructor(props) {
         super(props);
         this.state = {
+            searchTerm: props.searchTerm,
             numberOfMatches: 0,
             totalRecordsChecked: 0
         };
         this.itemClick = this.itemClick.bind(this);
         this._renderItem = this._renderItem.bind(this);
         this._keyExtractor = this._keyExtractor.bind(this);
+        this.incrementTotalRecordsChecked = this.incrementTotalRecordsChecked.bind(this);
+        this.incrementNumberOfMatches = this.incrementNumberOfMatches.bind(this);
+        
     }
+    
+    componentDidUpdate(prevProps, prevState) {
+        if (prevProps.searchTerm != this.props.searchTerm) {
+            // Alert.alert("New props")
+            this.setState({
+                searchTerm: this.props.searchTerm
+            });
+            for (var i = 0; i < this.props.itemList.length; i++) {
+                var obj = this.props.itemList[i];
+                this.incrementTotalRecordsChecked();
+                obj.title.toLowerCase().includes(this.props.searchTerm) ?
+                    this.incrementNumberOfMatches()
+                    : false
+                console.log(obj.title);
+            }
+        }
+    }
+    incrementTotalRecordsChecked() {
+        this.setState(
+            (prevState, props) => ({
+                totalRecordsChecked: prevState.totalRecordsChecked + 1
+            })
+        )
 
-    _renderItem = ({ item }) => (
+    }
+    incrementNumberOfMatches() {
         this.setState((prevState, props) => ({
-            totalRecordsChecked: prevState.totalRecordsChecked + 1
-        })),
+            numberOfMatches: prevState.numberOfMatches + 1
+        }))
+    }
+    _renderItem = ({ item }) => (
         item.title.toLowerCase().includes(this.props.searchTerm.toLowerCase()) ? (
-            this.setState((prevState, props) => ({
-                numberOfMatches: prevState.numberOfMatches + 1
-            })),
             <WebsiteRecord
                 searchTerm={this.props.searchTerm}
                 listType='list'
@@ -40,12 +68,6 @@ export default class WebsiteRecordList extends React.PureComponent {
             />
         ) : false
     );
-    componentWillReceiveProps(){
-        this.setState({
-            numberOfMatches: 0,
-            totalRecordsChecked: 0
-        });
-    }
     _keyExtractor = (item, index) => item.key.toString();
 
     _onPressItem = () => {
@@ -58,8 +80,8 @@ export default class WebsiteRecordList extends React.PureComponent {
     render() {
         return (
             <View style={styles.container}>
-                <Text>{this.state.totalRecordsChecked  + " "+ this.state.numberOfMatches}</Text>
-                {this.state.totalRecordsChecked == 12 && this.state.numberOfMatches == 0? <Text>No matches found!</Text>:<Text>Matches Found</Text>}
+                <Text>{this.state.totalRecordsChecked + " " + this.state.numberOfMatches + " " + this.props.itemList.length}</Text>
+                {this.state.totalRecordsChecked == this.props.itemList.length && this.state.numberOfMatches == 0 ? <Text>No matches found!</Text> : <Text>Matches Found</Text>}
                 <View>
                     {this.props.searchTerm != null ?
                         <FlatList
@@ -67,7 +89,7 @@ export default class WebsiteRecordList extends React.PureComponent {
                             data={this.props.itemList}
                             renderItem={this._renderItem}
                         /> : false}
-                </View> 
+                </View>
             </View>
         );
     };

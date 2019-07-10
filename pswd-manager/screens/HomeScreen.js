@@ -4,7 +4,6 @@ import { MonoText } from '../components/StyledText';
 import { LinearGradient } from 'expo';
 import WebsiteRecordList from '../components/WebsiteRecordList'
 import WebsiteRecordAdd from '../components/WebsiteRecordAdd'
-// import { WebsiteRecord } from '../components/WebsiteRecord'
 
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -15,12 +14,14 @@ export default class HomeScreen extends React.Component {
     this.state = {
       username: null,
       addNew: null,
-      searchValue: null
+      searchValue: null,
+      displayFlatline: false
     }
     this.getData = this.getData.bind(this);
     this.newWebsiteClick = this.newWebsiteClick.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.newWebsiteClose = this.newWebsiteClose.bind(this);
+    this.callFlatlist = this.callFlatlist.bind(this);
   }
   componentDidMount() {
     const username = this.props.navigation.getParam('username', 'no-user');
@@ -37,6 +38,9 @@ export default class HomeScreen extends React.Component {
     this.setState({
       [name]: inputedValue
     });
+    if (name == "searchValue") {
+      this.callFlatlist();
+    }
   }
 
   newWebsiteClick() {
@@ -48,6 +52,29 @@ export default class HomeScreen extends React.Component {
     this.setState({
       addNew: 'false'
     });
+  }
+  callFlatlist() {
+
+    let data = this.getData();
+    let matches = false;
+    for (var i = 0; i < data.length; i++) {
+      console.log("Checking " + data[i].title + " with " + this.state.searchValue)
+      if (data[i].title.toLowerCase().includes(this.state.searchValue.toLowerCase())) {
+        matches = true;
+        break;
+      }
+    }
+
+    if (matches == true) {
+      this.setState({
+        displayFlatline: true
+      })
+    } else {
+      this.setState({
+        displayFlatline: false
+      })
+    }
+
   }
   getData() {
     return [
@@ -156,16 +183,17 @@ export default class HomeScreen extends React.Component {
                 style={styles.searchInput}
                 placeholder="Search"
                 value={this.state.searchValue}
-              // onChangeText={(text) => this.setState({ text })}
-              // value={this.state.text}
               />
             </View>
 
-            <WebsiteRecordList
-              searchTerm={this.state.searchValue}
-              itemList={this.getData()}>
+            <Text>{"Value here " + this.state.displayFlatline}</Text>
+            {this.state.displayFlatline == true ?
+              <WebsiteRecordList
+                searchTerm={this.state.searchValue}
+                itemList={this.getData()}>
 
-            </WebsiteRecordList>
+              </WebsiteRecordList> :
+              <Text>No match</Text>}
           </ScrollView>
           {/* <View style={styles.container}>
               
