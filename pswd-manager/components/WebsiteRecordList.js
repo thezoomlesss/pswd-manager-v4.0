@@ -48,8 +48,6 @@ export default class WebsiteRecordList extends React.PureComponent {
     render() {
         return (
             <View style={styles.container}>
-                {/* <Text>{this.state.totalRecordsChecked + " " + this.state.numberOfMatches + " " + this.props.itemList.length}</Text> */}
-                {this.state.totalRecordsChecked == this.props.itemList.length && this.state.numberOfMatches == 0 ? <Text>No matches found!</Text> : <Text>Matches Found</Text>}
                 <View>
                     {this.props.searchTerm != null ?
                         <FlatList

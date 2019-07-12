@@ -15,7 +15,7 @@ export default class HomeScreen extends React.Component {
       username: null,
       addNew: null,
       searchValue: null,
-      displayFlatline: false
+      displayFlatline: true,
     }
     this.getData = this.getData.bind(this);
     this.newWebsiteClick = this.newWebsiteClick.bind(this);
@@ -29,7 +29,6 @@ export default class HomeScreen extends React.Component {
       username: username,
       addNew: 'false',
       searchValue: '',
-
     });
   }
 
@@ -39,7 +38,7 @@ export default class HomeScreen extends React.Component {
       [name]: inputedValue
     });
     if (name == "searchValue") {
-      this.callFlatlist();
+      this.callFlatlist(inputedValue);
     }
   }
 
@@ -53,19 +52,19 @@ export default class HomeScreen extends React.Component {
       addNew: 'false'
     });
   }
-  callFlatlist() {
+  callFlatlist(searchValue) {
 
     let data = this.getData();
     let matches = false;
     for (var i = 0; i < data.length; i++) {
-      console.log("Checking " + data[i].title + " with " + this.state.searchValue)
-      if (data[i].title.toLowerCase().includes(this.state.searchValue.toLowerCase())) {
+      // console.log("Checking " + data[i].title + " with " + this.state.searchValue)
+      if (data[i].title.toLowerCase().includes(searchValue.toLowerCase())) {
         matches = true;
         break;
       }
     }
 
-    if (matches == true) {
+    if (matches == true || searchValue == '') {
       this.setState({
         displayFlatline: true
       })
@@ -185,15 +184,17 @@ export default class HomeScreen extends React.Component {
                 value={this.state.searchValue}
               />
             </View>
-
-            <Text>{"Value here " + this.state.displayFlatline}</Text>
+            <Text>{this.state.displayFlatline + " " +  this.state.searchValue}</Text>
             {this.state.displayFlatline == true ?
               <WebsiteRecordList
                 searchTerm={this.state.searchValue}
                 itemList={this.getData()}>
 
               </WebsiteRecordList> :
-              <Text>No match</Text>}
+              <View style={styles.noMatchesContainer}>
+                <Text style={styles.noMatchText}>No match</Text>
+              </View>
+            }
           </ScrollView>
           {/* <View style={styles.container}>
               
@@ -210,7 +211,22 @@ const styles = StyleSheet.create({
     borderWidth: 1,
 
   },
-
+  noMatchesContainer: {
+    flex: 1,
+    padding: 10,
+    marginLeft: 16,
+    marginRight: 16,
+    marginTop: 8,
+    marginBottom: 8,
+    borderRadius: 5,
+    borderColor: 'rgba(44, 60, 89, 1)',
+    backgroundColor: 'rgba(80, 98, 130, 0.8)',
+    elevation: 2,
+  },
+  noMatchText:{
+    textAlign: 'center',
+    color: '#FFF'
+  },
   contentContainer: {
     paddingTop: 30,
     paddingBottom: 30,
