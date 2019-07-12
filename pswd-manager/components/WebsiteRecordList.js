@@ -16,14 +16,9 @@ export default class WebsiteRecordList extends React.PureComponent {
         super(props);
         this.state = {
             searchTerm: props.searchTerm,
-            numberOfMatches: 0,
-            totalRecordsChecked: 0
         };
-        this.itemClick = this.itemClick.bind(this);
         this._renderItem = this._renderItem.bind(this);
         this._keyExtractor = this._keyExtractor.bind(this);
-        this.incrementTotalRecordsChecked = this.incrementTotalRecordsChecked.bind(this);
-        this.incrementNumberOfMatches = this.incrementNumberOfMatches.bind(this);
         
     }
     
@@ -33,28 +28,7 @@ export default class WebsiteRecordList extends React.PureComponent {
             this.setState({
                 searchTerm: this.props.searchTerm
             });
-            for (var i = 0; i < this.props.itemList.length; i++) {
-                var obj = this.props.itemList[i];
-                this.incrementTotalRecordsChecked();
-                obj.title.toLowerCase().includes(this.props.searchTerm) ?
-                    this.incrementNumberOfMatches()
-                    : false
-                console.log(obj.title);
-            }
         }
-    }
-    incrementTotalRecordsChecked() {
-        this.setState(
-            (prevState, props) => ({
-                totalRecordsChecked: prevState.totalRecordsChecked + 1
-            })
-        )
-
-    }
-    incrementNumberOfMatches() {
-        this.setState((prevState, props) => ({
-            numberOfMatches: prevState.numberOfMatches + 1
-        }))
     }
     _renderItem = ({ item }) => (
         item.title.toLowerCase().includes(this.props.searchTerm.toLowerCase()) ? (
@@ -70,17 +44,11 @@ export default class WebsiteRecordList extends React.PureComponent {
     );
     _keyExtractor = (item, index) => item.key.toString();
 
-    _onPressItem = () => {
-        Alert.alert("Yes");
-    };
-
-    itemClick() {
-        Alert.alert("yes");
-    }
+    
     render() {
         return (
             <View style={styles.container}>
-                <Text>{this.state.totalRecordsChecked + " " + this.state.numberOfMatches + " " + this.props.itemList.length}</Text>
+                {/* <Text>{this.state.totalRecordsChecked + " " + this.state.numberOfMatches + " " + this.props.itemList.length}</Text> */}
                 {this.state.totalRecordsChecked == this.props.itemList.length && this.state.numberOfMatches == 0 ? <Text>No matches found!</Text> : <Text>Matches Found</Text>}
                 <View>
                     {this.props.searchTerm != null ?
